@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: api-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Same convention as order-service: a real deployment must supply
+          # its actual OIDC provider, no default is provided here.
+          issuer-uri: ${OAUTH2_ISSUER_URI}
+  cloud:
+    gateway:
+      httpclient:
+        connect-timeout: 2000
+        response-timeout: 5s
+
+services:
+  order-service:
+    uri: ${ORDER_SERVICE_URI:http://localhost:8081}
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

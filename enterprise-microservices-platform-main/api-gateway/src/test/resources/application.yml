@@ -1,0 +1,9 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9999/unused-test-jwks
+services:
+  order-service:
+    uri: http://localhost:19191

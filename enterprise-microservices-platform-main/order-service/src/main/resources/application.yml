@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: jdbc:h2:file:./data/orders;AUTO_SERVER=TRUE
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      auto-offset-reset: earliest
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # A real deployment points this at its actual OIDC provider (e.g.
+          # Keycloak, Auth0, Okta). There is deliberately no default here --
+          # the service should fail to start rather than silently run
+          # without real token validation. See README "Security" for how
+          # tests supply a decoder without a live IdP.
+          issuer-uri: ${OAUTH2_ISSUER_URI}
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
